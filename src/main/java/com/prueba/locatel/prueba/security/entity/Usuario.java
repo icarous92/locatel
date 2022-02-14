@@ -1,10 +1,10 @@
 package com.prueba.locatel.prueba.security.entity;
 
 import com.prueba.locatel.prueba.entity.Cuenta;
-import com.prueba.locatel.prueba.entity.Movimiento;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,14 @@ public class RolService {
 
     public Optional<Rol> getByRolNombre(RolNombre rolNombre){
         return rolRepository.findByRolNombre(rolNombre);
+    }
+
+    public boolean existsById (int id){
+       return rolRepository.existsById(id);
+    }
+
+    public List<Rol> list(){
+        return rolRepository.findAll();
     }
 
     public void save(Rol rol){
