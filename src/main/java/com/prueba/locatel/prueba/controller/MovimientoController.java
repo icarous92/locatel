@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/movimiento")
+@RequestMapping("/auth/movimiento")
 public class MovimientoController {
 
     @Autowired
