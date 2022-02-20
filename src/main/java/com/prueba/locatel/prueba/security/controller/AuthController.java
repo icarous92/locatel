@@ -28,7 +28,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.relation.Role;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;

@@ -1,9 +1,13 @@
 package com.prueba.locatel.prueba.controller;
 
 import com.prueba.locatel.prueba.dto.ListaCuenta;
+import com.prueba.locatel.prueba.dto.ListaUsuarios;
 import com.prueba.locatel.prueba.dto.Mensaje;
 import com.prueba.locatel.prueba.dto.NuevaCuenta;
 import com.prueba.locatel.prueba.entity.Cuenta;
+import com.prueba.locatel.prueba.security.dto.ListaRoles;
+import com.prueba.locatel.prueba.security.entity.Rol;
+import com.prueba.locatel.prueba.security.entity.Usuario;
 import com.prueba.locatel.prueba.security.service.UsuarioService;
 import com.prueba.locatel.prueba.service.CuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/cuenta")
+@RequestMapping("/auth/cuenta")
+@CrossOrigin(origins = "*")
 public class CuentaController {
 
     @Autowired
@@ -82,6 +87,25 @@ public class CuentaController {
             return new ResponseEntity(listaCuenta, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(new Mensaje("Error al consultar número de cuenta " + e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/usuarios")
+    public  ResponseEntity<?> usuarios(){
+        try{
+            List<Usuario> usuarios = usuarioService.list();
+            if(usuarios.isEmpty())
+                return new ResponseEntity(new Mensaje("No existen usuarios"), HttpStatus.BAD_REQUEST);
+            List<ListaUsuarios> listaUsuarios = usuarios.stream()
+                    .map(usuario -> new ListaUsuarios(
+                            (int) usuario.getId(),
+                            usuario.getNombreUsuario().toString()
+                    )).collect(Collectors.toList());
+
+            return new ResponseEntity(listaUsuarios, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(new Mensaje("Error al consultar usuarios " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 }
